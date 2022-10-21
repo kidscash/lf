@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 
-@Transactional
+
 public class MemberService {
 
 
@@ -23,10 +23,11 @@ public class MemberService {
     }
 
 
+    @Transactional
     public Long join(Member member){
 
-        CheckDuplicateMemberNick(member);
-        CheckDuplicateMember(member);
+        CheckDuplicateMemberNick2(member);
+        CheckDuplicateMember2(member);
         EncodingPwd(member);
 
 
@@ -40,19 +41,60 @@ public class MemberService {
         return member.getMiSeq();
     }
 
-    private void CheckDuplicateMember(Member member) {
+    private void CheckDuplicateMember2(Member member) {
         memberRepository.findByMiId(member.getMiId())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 가입된 메일입니다.");
                 });
     }
 
-    private void CheckDuplicateMemberNick(Member member) {
+    private void CheckDuplicateMemberNick2(Member member) {
         memberRepository.findByMiNick(member.getMiNick())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 사용된 닉네임 입니다.");
                 });
     }
+
+    private boolean CheckDuplicateMember(Member member) {
+        if(memberRepository.findByMiId(member.getMiId()).isPresent()){
+            System.out.println("이메일 있음");
+            return true;
+        }else {
+            System.out.println("이메일 사용가능");
+            return false;
+        }
+    }
+
+    private boolean CheckDuplicateMemberNick(Member member) {
+
+        if(memberRepository.findByMiNick(member.getMiNick()).isPresent()){
+            System.out.println("닉네임 있음");
+            return true;
+        }else {
+            System.out.println("닉네임 사용가능");
+            return false;
+        }
+
+    }
+
+    public boolean checkNick(String mi_nick){
+
+        Member member = new Member();
+        member.setMiNick(mi_nick);
+
+        return CheckDuplicateMemberNick(member);
+
+    }
+
+    public boolean checkMail(String mi_id){
+
+        Member member = new Member();
+        member.setMiId(mi_id);
+
+        return CheckDuplicateMember(member);
+
+    }
+
 
     private void EncodingPwd(Member member){
         String pwd = passwordEncoder.encode(member.getMiPwd());
@@ -62,15 +104,34 @@ public class MemberService {
     private Boolean ValidatePwd(Member member){
 
         Optional<Member> id = memberRepository.findByMiId(member.getMiId());
-        id.orElseThrow(()->new IllegalStateException("아이디 존재하지 않음"));
 
-        if(passwordEncoder.matches(member.getMiPwd(),id.get().getMiPwd())){
+        if(id.isPresent()){
+            boolean valiLogin = passwordEncoder.matches(member.getMiPwd(), id.get().getMiPwd());
 
-            return true;
-        }else {
-
+            if(valiLogin == true) {
+                System.out.println("로그인 성공");
+                return true;
+            }else {
+                System.out.println("비밀번호 틀림");
+                return false;
+            }
+            
+        }else{
+            System.out.println("아이디없음");
             return false;
         }
+
+        //        id.orElseThrow(()->new IllegalStateException("아이디 존재하지 않음"));
+//
+//
+//
+//        if(passwordEncoder.matches(member.getMiPwd(),id.get().getMiPwd())){
+//
+//            return true;
+//        }else {
+//
+//            return false;
+//        }
 
 
     }

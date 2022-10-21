@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -45,10 +42,13 @@ public class MemberControrller {
     }
 
     @PostMapping("/members/new")
-    public String create(@Valid MemberForm form, BindingResult bindingResult){
+    public String create(@Valid MemberForm form, BindingResult bindingResult,Model model){
 
         if(bindingResult.hasErrors()){
-            return "views/subscr/join_page";
+
+            System.out.println("입력창 확인요망");
+            model.addAttribute("message","입력란을 확인해주세요");
+            return null;
         }
 
         System.out.println("form = " + form.getMi_id());
@@ -68,7 +68,9 @@ public class MemberControrller {
     public String login(@Valid LoginForm form, BindingResult bindingResult, Model model,HttpSession session){
 
         if(bindingResult.hasErrors()){
-            return "login";
+            System.out.println("아이디 또는 비밀번호를 확인해주세요");
+            model.addAttribute("message","아이디 또는 비밀번호를 확인해주세요");
+            return "";
         }
 
         System.out.println("form = " + form.getMi_id());
@@ -88,8 +90,9 @@ public class MemberControrller {
             return "views/subscr/subscr_mypage";
 
         }else {
-
-            } return "redirect:/";
+            System.out.println("아이디 또는 비밀번호를 확인해주세요");
+            model.addAttribute("message","아이디 또는 비밀번호를 확인해주세요");
+            } return "forward:/login";
         }
 
     @GetMapping("/logout")
@@ -97,6 +100,24 @@ public class MemberControrller {
         session.removeAttribute("session");
         return "redirect:/";
 
+    }
+
+    @PostMapping("/members/checkNick")
+    @ResponseBody
+    public boolean checkNick(@RequestParam("mi_nick") String mi_nick){
+
+        boolean result = memberService.checkNick(mi_nick);
+
+        return result;
+    }
+
+    @PostMapping("/members/checkMail")
+    @ResponseBody
+    public boolean checkMail(@RequestParam("mi_id") String mi_id){
+
+        boolean result = memberService.checkMail(mi_id);
+
+        return result;
     }
 
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface MemberRepository {
 
+
     Member save(Member member);
     Optional<Member> findByMiSeq(Long mi_seq);
     Optional<Member> findByMiId(String mi_id);
