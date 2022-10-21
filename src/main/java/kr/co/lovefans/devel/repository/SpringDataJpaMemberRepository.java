@@ -16,4 +16,5 @@ public interface SpringDataJpaMemberRepository extends JpaRepository<Member,Long
 
     @Override
     Optional<Member> findByMiSeq(Long mi_seq);
+
 }
