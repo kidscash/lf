@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 
-
+@Transactional
 public class MemberService {
 
 
@@ -23,7 +23,7 @@ public class MemberService {
     }
 
 
-    @Transactional
+
     public Long join(Member member){
 
         CheckDuplicateMemberNick2(member);

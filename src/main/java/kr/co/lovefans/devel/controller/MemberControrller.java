@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -65,12 +66,12 @@ public class MemberControrller {
     }
 
     @PostMapping("/members/login")
-    public String login(@Valid LoginForm form, BindingResult bindingResult, Model model,HttpSession session){
+    public String login(@Valid LoginForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
             System.out.println("아이디 또는 비밀번호를 확인해주세요");
             model.addAttribute("message","아이디 또는 비밀번호를 확인해주세요");
-            return "";
+            return "login";
         }
 
         System.out.println("form = " + form.getMi_id());
@@ -83,8 +84,9 @@ public class MemberControrller {
             Optional<Member> memberInfo = memberService.findById(form.getMi_id());
             System.out.println("회원닉 = " + memberInfo.get().getMiNick());
 
-            model.addAttribute("model",memberInfo.get());
+            model.addAttribute("model", memberInfo.get());
 
+            HttpSession session = request.getSession();
             session.setAttribute("session",memberInfo.get().getMiSeq());
 
             return "views/subscr/subscr_mypage";
@@ -95,9 +97,12 @@ public class MemberControrller {
             } return "forward:/login";
         }
 
-    @GetMapping("/logout")
+    @GetMapping("/members/logout")
     public String logout(HttpSession session){
+        System.out.println("세션삭제" + session.getAttribute("session"));
+
         session.removeAttribute("session");
+
         return "redirect:/";
 
     }
