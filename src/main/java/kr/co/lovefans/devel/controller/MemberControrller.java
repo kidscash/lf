@@ -49,7 +49,7 @@ public class MemberControrller {
 
             System.out.println("입력창 확인요망");
             model.addAttribute("message","입력란을 확인해주세요");
-            return null;
+            return "views/subscr/join_page";
         }
 
         System.out.println("form = " + form.getMi_id());
@@ -66,7 +66,7 @@ public class MemberControrller {
     }
 
     @PostMapping("/members/login")
-    public String login(@Valid LoginForm form, BindingResult bindingResult, Model model, HttpServletRequest request){
+    public String login(@Valid LoginForm form, BindingResult bindingResult, HttpServletRequest request, Model model){
 
         if(bindingResult.hasErrors()){
             System.out.println("아이디 또는 비밀번호를 확인해주세요");
@@ -84,12 +84,12 @@ public class MemberControrller {
             Optional<Member> memberInfo = memberService.findById(form.getMi_id());
             System.out.println("회원닉 = " + memberInfo.get().getMiNick());
 
-            model.addAttribute("model", memberInfo.get());
+            //model.addAttribute("model", memberInfo.get());
 
             HttpSession session = request.getSession();
             session.setAttribute("session",memberInfo.get().getMiSeq());
 
-            return "views/subscr/subscr_mypage";
+            return "redirect:mypage";
 
         }else {
             System.out.println("아이디 또는 비밀번호를 확인해주세요");
@@ -106,6 +106,32 @@ public class MemberControrller {
         return "redirect:/";
 
     }
+
+    @GetMapping("/members/mypage")
+    public String myPage(HttpSession session,Model model){
+        String go = "";
+
+        Optional<Member> memberInfo = memberService.findOne((Long) session.getAttribute("session"));
+        model.addAttribute("model", memberInfo.get());
+
+
+
+        if(memberInfo.isEmpty()) {
+            go = "redirect:login";
+        }else if(memberInfo.get().getMiKind()=="V") {
+
+            go =  "views/subscr/subscr_mypage";
+        }else if(memberInfo.get().getMiKind()=="C") {
+
+            go = "redirect:/creator/creator_mypage";
+        }
+
+        //return go;
+        return "views/subscr/subscr_mypage";
+
+    }
+
+
 
     @PostMapping("/members/checkNick")
     @ResponseBody
