@@ -19,14 +19,14 @@
 					<span class="selected">전체</span>
 					<span>읽지않음</span>
 					<img src="/img/icon_message_add.png" onclick="location.href='subscr_message_select.html'"
-                         th:onclick="|location.href='@{/subs/message/select}'|"/>
+                         th:onclick="|location.href='@{/subs/message/select(key=${session.session})}'|"/>
 				</div>
 			</div>
 
 			<!-- 메시지 목록 -->
 			<article class="aritcle_border_container">
 				<div class="message_list" onclick="location.href='subscr_message_view.html';"
-					 th:onclick="|location.href='@{/subs/message/view}'|">
+					 th:onclick="|location.href='@{/subs/message/view(key=${session.session})}'|">
 					<figure class="fb_cc profile"><img src="/img/sample_img.jpg" /></figure>
 					<section>
 						<span>Creator Nick Name OR Page Name</span>
@@ -41,7 +41,7 @@
 			<!-- 메시지 목록 -->
 			<article class="aritcle_border_container">
 				<div class="message_list" onclick="location.href='subscr_message_view.html';"
-					 th:onclick="|location.href='@{/subs/message/view}'|">
+					 th:onclick="|location.href='@{/subs/message/view(key=${session.session})}'|">
 					<figure class="fb_cc profile"><img src="/img/sample_img.jpg" /></figure>
 					<section>
 						<span>Creator Nick Name OR Page Name</span>
@@ -54,7 +54,7 @@
 			<br />
 
 			<div id="message_add_btn" class="fb_cc" onclick="location.href='subscr_message_select.html';"
-				 th:onclick="|location.href='@{/subs/message/select}'|">
+				 th:onclick="|location.href='@{/subs/message/select(key=${session.session})}'|">
 				<img src="/img/icon_message_add.png" />
 			</div>
 

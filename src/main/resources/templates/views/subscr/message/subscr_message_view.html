@@ -17,7 +17,7 @@
 				<section class="fb_sc message_view_top">
 					<figure class="fb_cc profile"><img src="/img/sample_img.jpg" /></figure>
 					<div>Creator Nick Name OR Page Name &nbsp;&nbsp;<span>님과의 메시지</span></div>
-					<a class="fb_cc" href="subscr_message_list.html" th:href="@{/subs/message/list}"><img src="/img/icon_x_close.png" /></a>
+					<a class="fb_cc" href="subscr_message_list.html" th:href="@{/subs/message/list(key=${session.session})}"><img src="/img/icon_x_close.png" /></a>
 				</section>
 
 				<section class="fb_c_ss message_area">
@@ -40,9 +40,14 @@
 				</section>
 
 				<section class="fb_bc message_input">
-					<input type="text" placeholder="메시지 입력" />
-					<button type="button" class="w80 h35 defaultLight">보내기</button>
+					<input type="text" id="input_text" placeholder="메시지 입력" />
+					<button type="button" class="w80 h35 defaultLight" id="send_btn" disabled="disabled">보내기</button>
 				</section>
+
+<!--				<section class="fb_bc message_input">-->
+<!--					<input type="text" placeholder="메시지 입력" />-->
+<!--					<button type="button" class="w80 h35 defaultLight">보내기</button>-->
+<!--				</section>-->
 
 			</article>
 		</section>
@@ -76,6 +81,15 @@
 			m5 = $("footer").height();
 			applyH = screenH - (m1+m2+m3+m4+m5+50);
 			$(".message_area").css("height", applyH + "px");
+		});
+
+		// input 텍스트 입력 시 보내기 버튼 활성화
+		$(function() {
+			$("#input_text").on("keyup", function() {
+				let flag = true;
+				flag = $(this).val().length > 0 ? false : true;
+				$("#send_btn").attr("disabled", flag);
+			});
 		});
 	});
 </script>

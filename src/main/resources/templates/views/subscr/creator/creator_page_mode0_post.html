@@ -16,7 +16,7 @@
 				<span>Creator PageName</span>
 
 				<button type="button" class="w100 h35 default" onclick="location.href='mem_be.html';"
-						th:onclick="|location.href='@{/subs/mem/be}'|">구독하기</button>
+						th:onclick="|location.href='@{/subs/mem/be(key=${session.session})}'|">구독하기</button>
 			</div>
 
 			<div class="cpage_head">
@@ -55,7 +55,7 @@
 
 						<!-- 포스트 수량정보 -->
 						<div class="fb_vc post_quantity">
-							<p><a href="../member/mem_be.html" th:href="@{/subs/mem/be}">구독자가 되면,</a> 독점 포스트 000개를 즉시 이용할 수 있습니다</p>
+							<p><a href="../member/mem_be.html" th:href="@{/subs/mem/be(key=${session.session})}">구독자가 되면,</a> 독점 포스트 000개를 즉시 이용할 수 있습니다</p>
 							<div><span>100</span><br>이미지</div>
 							<div><span>100</span><br>동영상</div>
 							<div><span>100</span><br>링크</div>
@@ -108,7 +108,7 @@
 									<img src="/img/icon_lock.png" />
 									<p>구독자가 되어<br>포스트 잠금을 히제하고 내용을 확인하세요</p>
 									<button type="button" class="w200 h35 bright" onclick="location.href='mem_be.html';"
-											th:onclick="|location.href='@{/subs/mem/be}'|">구독하기</button>
+											th:onclick="|location.href='@{/subs/mem/be(key=${session.session})}'|">구독하기</button>
 								</div>
 								<img src="/img/sample_post_img.jpg" />
 							</figure>
@@ -178,7 +178,7 @@
 								
 								<!-- 베너 -->
 								<article class="creator_banner" style="background-image:url('/img/sample_bg.jpg')" onclick="location.href='creator_page_mode0.html';"
-										 th:onclick="|location.href='@{/subs/creatorpage/mode0}'|">
+										 th:onclick="|location.href='@{/subs/creatorpage/mode0(key=${session.session})}'|">
 									<div>
 										<figure class="profile"><img src="/img/sample_img.jpg" /></figure>
 										<section>
@@ -191,7 +191,7 @@
 
 								<!-- 베너 -->
 								<article class="creator_banner" style="background-image:url('/img/sample_bg.jpg')" onclick="location.href='creator_page_mode0.html';"
-										 th:onclick="|location.href='@{/subs/creatorpage/mode0}'|">
+										 th:onclick="|location.href='@{/subs/creatorpage/mode0(key=${session.session})}'|">
 									<div>
 										<figure class="profile"><img src="/img/sample_img.jpg" /></figure>
 										<section>
@@ -204,7 +204,7 @@
 
 								<!-- 베너 -->
 								<article class="creator_banner" style="background-image:url('/img/sample_bg.jpg')" onclick="location.href='creator_page_mode0.html';"
-										 th:onclick="|location.href='@{/subs/creatorpage/mode0}'|">
+										 th:onclick="|location.href='@{/subs/creatorpage/mode0(key=${session.session})}'|">
 									<div>
 										<figure class="profile"><img src="/img/sample_img.jpg" /></figure>
 										<section>
